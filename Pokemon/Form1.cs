@@ -63,8 +63,11 @@ namespace Pokemon
         Image plantArena = Properties.Resources.arena_plant;
         Image UpgradeStatsBg = Properties.Resources.UpgradeStatsBg;
         Image boss1 = Properties.Resources.boss1;
+        Image boss2 = Properties.Resources.boss2;
+        Image boss3 = Properties.Resources.boss3;
         Image playerPokemon;
         Image winImg = Properties.Resources.winnerImg;
+        
 
         Image evolveScreenBg = Properties.Resources.evolveScreen;
 
@@ -83,6 +86,8 @@ namespace Pokemon
         Rectangle houseWallInterior3 = new Rectangle(570, -20, 10, 500);
         Rectangle houseWallInterior4 = new Rectangle(200, 440, 110, 10);
         Rectangle houseWallInterior5 = new Rectangle(355, 440, 215, 10);
+
+        Rectangle arena
 
         //Grass and Arena
         Rectangle grass = new Rectangle(0, 0, 1000, 600);
@@ -110,6 +115,7 @@ namespace Pokemon
         int bossAtk = 320;
         int bossSpAtk = 500;
         int bossHeal = 600;
+        int bossCounter = 1;
 
         int playerMoney = 600;
 
@@ -440,6 +446,7 @@ namespace Pokemon
         {
             evolveButton.Visible = false;
             exitEvolve.Visible = false;
+            resultBattleLabel.Visible = false;
 
             pikachu.Visible = false;
             squirtle.Visible = false;
@@ -717,6 +724,27 @@ namespace Pokemon
             spAttackButton.Enabled = true;
             pokemonHealthLabel.Visible = true;
             bossHealthLabel.Visible = true;
+            switch (bossCounter)
+            {
+                case 1:
+                    bossHealth = 1000;
+                    bossAtk = 320;
+                    bossSpAtk = 500;
+                    bossHeal = 600;
+                    break;
+                case 2:
+                    bossHealth = 2000;
+                    bossAtk = 400;
+                    bossSpAtk = 600;
+                    bossHeal = 800;
+                    break;
+                case 3:
+                    bossHealth = 2500;
+                    bossAtk = 700;
+                    bossSpAtk = 900;
+                    bossHeal = 900;
+                    break;
+            }
         }
 
         private void attackButton_Click(object sender, EventArgs e)
@@ -852,6 +880,8 @@ namespace Pokemon
             spAttackButton.Visible = false;
             spAttackButton.Enabled = false;
 
+            battleBoss.Visible = false;
+            battlePokemon.Location = new Point (this.Width / 2, this.Height / 2);
             gameState = "End Screen";
         }
         private void checkWinCondition()
@@ -860,39 +890,40 @@ namespace Pokemon
             {
                 pokemonHealth = 0;
                 pokemonHealthLabel.Text = "0";
-                
+                resultBattleLabel.Text = "You Loss";
                 gameLoop.Enabled = false;
                 InitializeMainScreen();
             }
 
-            if (gameState == "Battle Screen" && bossHealth <= 0)
+            if (gameState == "Battle Screen" && bossHealth <= 0 && bossCounter == 1)
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                gameLoop.Enabled = false;
-                InitializeEndScreen();
+                resultBattleLabel.Text = "Next Boss";
+                bossCounter++;
+                InitializeBattleScreen();
+            }
+
+            if (gameState == "Battle Screen" && bossHealth <= 0 && bossCounter == 2)
+            {
+                bossHealth = 0;
+                bossHealthLabel.Text = "0";
+                battleBoss.Image = boss2;
+                resultBattleLabel.Text = "Next Boss";
+                bossCounter++;
+                InitializeBattleScreen();
 
             }
 
-            //if (gameState == "Battle Screen")
-            //{
-            //    for (int i = 0; i < 3; i++)
-            //    {
-            //        if (gameState == "Battle Screen" && bossHealth <= 0)
-            //        {
-            //            bossHealth += 500;
-            //            bossAtk += 200;
-            //            bossSpAtk += 400;
-            //            bossHeal += 300;
-            //
-            //            if (i == 3)
-            //            {
-            //                gameLoop.Enabled = false;
-            //                InitializeEndScreen();
-            //            }
-            //        }
-            //    }
-            //}
+            if (gameState == "Battle Screen" && bossHealth <= 0 && bossCounter == 3)
+            {
+                bossHealth = 0;
+                bossHealthLabel.Text = "0";
+                battleBoss.Image = boss3;
+                resultBattleLabel.Text = "You Win";
+                gameLoop.Enabled = false;
+                InitializeEndScreen();
+            }
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -967,18 +998,6 @@ namespace Pokemon
                 else
                 {
                     evolveButton.Enabled = true;
-                }
-            }
-            else if (gameState == "Battle Screen")
-            {
-                if (pokemonHealth <= 0)
-                {
-                    e.Graphics.DrawString("Player Lost", drawFont, blackBrush, 400, 200);
-                }
-
-                if (bossHealth <= 0)
-                {
-                    e.Graphics.DrawString("Player Wins", drawFont, blackBrush, 400, 200);
                 }
             }
             else if(gameState == "End Screen")
