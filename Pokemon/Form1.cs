@@ -44,7 +44,7 @@ namespace Pokemon
         List<Rectangle> chestList = new List<Rectangle>();
 
         //Money Lists
-        int[] moneyRequired = { 10, 20, 30, 50, 80, 130, 210, 340 };
+        int[] moneyRequired = { 10, 20, 30, 50, 80, 130, 210, 340, 550, 890 };
         int i = 0;
 
         //trees Images
@@ -118,7 +118,8 @@ namespace Pokemon
         int bossHeal = 600;
         int bossCounter = 1;
 
-        int playerMoney = 600;
+        int playerMoney = 6000;
+        int bossCurrentHealthX = 370;
 
         //Setup for Battle
         string playerChoice, cpuChoice;
@@ -139,6 +140,7 @@ namespace Pokemon
         //Player Speed
         int player1Speed = 10;
 
+
         //Player Movement Booleans
         bool wPressed = false;
         bool sPressed = false;
@@ -149,12 +151,13 @@ namespace Pokemon
         {
             InitializeComponent();
             InitializeGameScreen();
-            battleBossHealthBar = new Rectangle(450, 100,bossHealth/10 , 20);
+            battleBossHealthBar = new Rectangle(350, 100,bossHealth/5 , 20);
             battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth/5, 20);
             playerCurrentDirection = Properties.Resources.down1;
             evolveButton.Visible = false;
             exitEvolve.Visible = false;
             gameLoop.Enabled = false;
+
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -702,7 +705,7 @@ namespace Pokemon
                     pokemonSpAtk += 200;
                     pokemonHeal += 180;
                     playerMoney -= moneyRequired[i];
-
+                    battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
                     i++;
                 }
                 else
@@ -731,10 +734,7 @@ namespace Pokemon
         private void InitializeBattleScreen()
         {
             gameState = "Battle Screen";
-            battleBossHealthBar = new Rectangle(450, 100, (bossHealth / 5), 20);
-            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
             battlePokemon.Image = playerPokemon;
-            battleBoss.Image = boss1;
             pokemonHealthLabel.Text = $"{pokemonHealth}";
             bossHealthLabel.Text= $"{bossHealth}";
 
@@ -756,19 +756,24 @@ namespace Pokemon
             switch (bossCounter)
             {
                 case 1:
+                    battleBoss.Image = boss1;
                     bossHealth = 1000;
                     bossAtk = 320;
                     bossSpAtk = 500;
                     bossHeal = 600;
                     break;
                 case 2:
-                    bossHealth = 2000;
+                    battleBoss.Image = boss2;
+                    battleBossHealthBar = new Rectangle(bossCurrentHealthX - 100, 100, (bossHealth / 5), 20);
+                    bossHealth = 1500;
                     bossAtk = 400;
                     bossSpAtk = 600;
                     bossHeal = 800;
                     break;
                 case 3:
-                    bossHealth = 2500;
+                    battleBoss.Image = boss3;
+                    battleBossHealthBar = new Rectangle(bossCurrentHealthX - 100, 100, (bossHealth / 5), 20);
+                    bossHealth = 2000;
                     bossAtk = 700;
                     bossSpAtk = 900;
                     bossHeal = 900;
@@ -834,7 +839,7 @@ namespace Pokemon
 
         public void computerChoice()
         {
-            int randValue = randGen.Next(1, 60);
+            int randValue = randGen.Next(1, 100 );
             if (cpuSpAttackOnCooldown && randValue < 60)
             {
                 cpuChoice = "Normal Attack";
@@ -842,10 +847,12 @@ namespace Pokemon
             else if (cpuSpAttackOnCooldown && randValue < 90)
             {
                 cpuChoice = "Heal";
+
             }
             else if (!cpuSpAttackOnCooldown && randValue < 30)
             {
                 cpuChoice = "Heal";
+
             }
             else if (!cpuSpAttackOnCooldown && randValue < 90)
             {
@@ -857,7 +864,7 @@ namespace Pokemon
             {
                 cpuChoice = "Normal Attack";
             }
-            Thread.Sleep(choicePause);
+            Thread.Sleep(500);
         }
 
         public void playerFightingResult()
@@ -865,25 +872,23 @@ namespace Pokemon
             if (playerChoice == "Heal")
             {
                 pokemonHealth += pokemonHeal;
-                battleBossHealthBar = new Rectangle(450 - (bossHealth / 5), 100, (bossHealth / 5), 20);
 
             }
             else if (playerChoice == "Normal Attack")
             {
                 bossHealth -= pokemonAtk;
-                battleBossHealthBar = new Rectangle(450 + (bossHealth / 5), 100, (bossHealth / 5), 20);
+                battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
             }
             else if (playerChoice == "Special Attack")
             {
                 bossHealth -= pokemonSpAtk;
-                battleBossHealthBar = new Rectangle(450 + (bossHealth/5), 100, (bossHealth / 5), 20);
+                battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
 
             }
             pokemonHealthLabel.Text = $"{pokemonHealth}";
             bossHealthLabel.Text = $"{bossHealth}";
-            //battleBossHealthBar = new Rectangle(450 , 100, (bossHealth / 5), 20);
             battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
-            Thread.Sleep(outcomePause);
+            Thread.Sleep(1000);
         }
 
         public void computerFightingResult()
@@ -891,6 +896,8 @@ namespace Pokemon
             if (cpuChoice == "Heal")
             {
                 bossHealth += bossHeal;
+                bossCurrentHealthX -= bossHealth /11;
+                battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
             }
             else if (cpuChoice == "Normal Attack")
             {
@@ -902,9 +909,8 @@ namespace Pokemon
             }
             pokemonHealthLabel.Text = $"{pokemonHealth}";
             bossHealthLabel.Text = $"{bossHealth}";
-            battleBossHealthBar = new Rectangle(450, 100, (bossHealth / 5), 20);
             battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
-            Thread.Sleep(outcomePause);
+            Thread.Sleep(1000);
         }
         public void InitializeEndScreen()
         {
@@ -939,7 +945,7 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBossHealthBar = new Rectangle(450, 100,0, 20);
+                battleBossHealthBar = new Rectangle(350, 100,0, 20);
                 resultBattleLabel.Text = "Next Boss";
                 battleBoss.Image = boss2;
                 resultBattleLabel.Refresh();
@@ -953,10 +959,11 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBossHealthBar = new Rectangle(450, 100, 0, 20);
+                battleBossHealthBar = new Rectangle(350, 100, 0, 20);
                 battleBoss.Image = boss3;
                 resultBattleLabel.Text = "Next Boss";
                 Thread.Sleep(500);
+                battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
                 resultBattleLabel.Text = " ";
                 bossCounter++;
                 InitializeBattleScreen();
@@ -967,7 +974,7 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBossHealthBar = new Rectangle(450, 100, 0, 20);
+                battleBossHealthBar = new Rectangle(350, 100, 0, 20);
                 resultBattleLabel.Text = "You Win";
                 Thread.Sleep(500);
                 resultBattleLabel.Text = " ";
