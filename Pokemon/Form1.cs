@@ -73,7 +73,8 @@ namespace Pokemon
 
         Rectangle actualChest = new Rectangle(20, 50, 30, 20);
 
-        //Player House 
+        Rectangle battleBossHealthBar = new Rectangle();
+        Rectangle battlePokemonHealthBar = new Rectangle();
         Rectangle house = new Rectangle(480, 100, 230, 200);
         Rectangle door = new Rectangle(578, 290, 35, 10);
         Rectangle houseInterior = new Rectangle(200, -20, 400, 500);
@@ -87,14 +88,14 @@ namespace Pokemon
         Rectangle houseWallInterior4 = new Rectangle(200, 440, 110, 10);
         Rectangle houseWallInterior5 = new Rectangle(355, 440, 215, 10);
 
-        Rectangle arena
+        Rectangle arenaWall = new Rectangle(295, 147, 200, 150);
 
         //Grass and Arena
         Rectangle grass = new Rectangle(0, 0, 1000, 600);
         Rectangle grassArena = new Rectangle(300, 100, 200, 200);
 
         //Arena setup
-        Rectangle enterArena = new Rectangle(387, 262, 29, 38);
+        Rectangle enterArena = new Rectangle(387, 263, 29, 38);
         Rectangle statsBg = new Rectangle(480, 100, 300, 150);
 
         //Evolve Pokemon Pic Position
@@ -148,6 +149,8 @@ namespace Pokemon
         {
             InitializeComponent();
             InitializeGameScreen();
+            battleBossHealthBar = new Rectangle(450, 100,bossHealth/10 , 20);
+            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth/5, 20);
             playerCurrentDirection = Properties.Resources.down1;
             evolveButton.Visible = false;
             exitEvolve.Visible = false;
@@ -416,6 +419,7 @@ namespace Pokemon
             gameLoop.Enabled = true;
             chestSpawn();
 
+
             playerName = playerNameInput.Text;
             if (pokemonPreview.Image == pokemonsList[0])
             {
@@ -468,7 +472,7 @@ namespace Pokemon
         {
 
 
-
+            resultBattleLabel.Visible = false;
             attackButton.Visible = false;
             attackButton.Enabled = false;
             healButton.Visible = false;
@@ -624,6 +628,28 @@ namespace Pokemon
                 }
             }
         }
+        private void arenaCollision()
+        {
+            if (gameState == "Arena Screen" && player1.IntersectsWith(arenaWall))
+            {
+                if (wPressed == true)
+                {
+                    player1.Y += player1Speed;
+                }
+                if (sPressed == true)
+                {
+                    player1.Y -= player1Speed;
+                }
+                if (aPressed == true)
+                {
+                    player1.X += player1Speed;
+                }
+                if (dPressed == true)
+                {
+                    player1.X -= player1Speed;
+                }
+            }
+        }
         private void InteriorCollision()
         {
             if (gameState == "House Interior" && player1.IntersectsWith(houseWallInterior1))
@@ -705,6 +731,8 @@ namespace Pokemon
         private void InitializeBattleScreen()
         {
             gameState = "Battle Screen";
+            battleBossHealthBar = new Rectangle(450, 100, (bossHealth / 5), 20);
+            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
             battlePokemon.Image = playerPokemon;
             battleBoss.Image = boss1;
             pokemonHealthLabel.Text = $"{pokemonHealth}";
@@ -712,6 +740,7 @@ namespace Pokemon
 
             this.BackgroundImage = Properties.Resources.forest;
 
+            resultBattleLabel.Visible = true;
             attackButton.Visible = true;
             healButton.Visible = true;
             spAttackButton.Visible = true;
@@ -836,17 +865,24 @@ namespace Pokemon
             if (playerChoice == "Heal")
             {
                 pokemonHealth += pokemonHeal;
+                battleBossHealthBar = new Rectangle(450 - (bossHealth / 5), 100, (bossHealth / 5), 20);
+
             }
             else if (playerChoice == "Normal Attack")
             {
                 bossHealth -= pokemonAtk;
+                battleBossHealthBar = new Rectangle(450 + (bossHealth / 5), 100, (bossHealth / 5), 20);
             }
             else if (playerChoice == "Special Attack")
             {
                 bossHealth -= pokemonSpAtk;
+                battleBossHealthBar = new Rectangle(450 + (bossHealth/5), 100, (bossHealth / 5), 20);
+
             }
             pokemonHealthLabel.Text = $"{pokemonHealth}";
             bossHealthLabel.Text = $"{bossHealth}";
+            //battleBossHealthBar = new Rectangle(450 , 100, (bossHealth / 5), 20);
+            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
             Thread.Sleep(outcomePause);
         }
 
@@ -866,6 +902,8 @@ namespace Pokemon
             }
             pokemonHealthLabel.Text = $"{pokemonHealth}";
             bossHealthLabel.Text = $"{bossHealth}";
+            battleBossHealthBar = new Rectangle(450, 100, (bossHealth / 5), 20);
+            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
             Thread.Sleep(outcomePause);
         }
         public void InitializeEndScreen()
@@ -891,6 +929,8 @@ namespace Pokemon
                 pokemonHealth = 0;
                 pokemonHealthLabel.Text = "0";
                 resultBattleLabel.Text = "You Loss";
+                Thread.Sleep(500);
+                resultBattleLabel.Text = " ";
                 gameLoop.Enabled = false;
                 InitializeMainScreen();
             }
@@ -899,7 +939,12 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
+                battleBossHealthBar = new Rectangle(450, 100,0, 20);
                 resultBattleLabel.Text = "Next Boss";
+                battleBoss.Image = boss2;
+                resultBattleLabel.Refresh();
+                Thread.Sleep(500);
+                resultBattleLabel.Text = " ";
                 bossCounter++;
                 InitializeBattleScreen();
             }
@@ -908,8 +953,11 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBoss.Image = boss2;
+                battleBossHealthBar = new Rectangle(450, 100, 0, 20);
+                battleBoss.Image = boss3;
                 resultBattleLabel.Text = "Next Boss";
+                Thread.Sleep(500);
+                resultBattleLabel.Text = " ";
                 bossCounter++;
                 InitializeBattleScreen();
 
@@ -919,8 +967,10 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBoss.Image = boss3;
+                battleBossHealthBar = new Rectangle(450, 100, 0, 20);
                 resultBattleLabel.Text = "You Win";
+                Thread.Sleep(500);
+                resultBattleLabel.Text = " ";
                 gameLoop.Enabled = false;
                 InitializeEndScreen();
             }
@@ -964,7 +1014,7 @@ namespace Pokemon
                 e.Graphics.DrawImage(grassImg, grass);
                 e.Graphics.DrawImage(GetCurrentDirectionImages()[player1FrameIndex], player1);
                 e.Graphics.DrawImage(plantArena, grassArena);
-                e.Graphics.DrawString($"LV:{pokemonLv}\nCoins:{playerMoney}", drawFont, blackBrush, 20, 30);
+                e.Graphics.DrawString($"LV:{pokemonLv}\nCoins:{playerMoney}", drawFont, blackBrush, 20, 30);    
             }
 
             else if (gameState == "House Interior")
@@ -1000,6 +1050,13 @@ namespace Pokemon
                     evolveButton.Enabled = true;
                 }
             }
+            else if(gameState == "Battle Screen")
+            {
+                e.Graphics.FillRectangle(redBrush, battleBossHealthBar);
+                e.Graphics.FillRectangle(redBrush, battlePokemonHealthBar);
+
+
+            }
             else if(gameState == "End Screen")
             {
                 e.Graphics.DrawImage(winImg, grass);
@@ -1012,6 +1069,7 @@ namespace Pokemon
             doorCollision();
             obstacleCollision();
             houseCollision();
+            arenaCollision();   
             InteriorCollision();
             chestCollision();
             arenaEnterCollision();

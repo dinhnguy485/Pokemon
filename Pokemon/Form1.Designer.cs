@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
-            this.exitEvolve = new System.Windows.Forms.Button();
-            this.evolveButton = new System.Windows.Forms.Button();
             this.playerNameInput = new System.Windows.Forms.TextBox();
             this.characterLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
@@ -42,9 +40,12 @@
             this.battleTimer = new System.Windows.Forms.Timer(this.components);
             this.pokemonHealthLabel = new System.Windows.Forms.Label();
             this.bossHealthLabel = new System.Windows.Forms.Label();
+            this.resultBattleLabel = new System.Windows.Forms.Label();
             this.spAttackButton = new System.Windows.Forms.Button();
             this.healButton = new System.Windows.Forms.Button();
             this.attackButton = new System.Windows.Forms.Button();
+            this.exitEvolve = new System.Windows.Forms.Button();
+            this.evolveButton = new System.Windows.Forms.Button();
             this.continueButton = new System.Windows.Forms.Button();
             this.pokemonPreview = new System.Windows.Forms.PictureBox();
             this.playerPreview = new System.Windows.Forms.PictureBox();
@@ -54,7 +55,6 @@
             this.pikachu = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
-            this.resultBattleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pokemonPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerPreview)).BeginInit();
             this.SuspendLayout();
@@ -62,28 +62,6 @@
             // gameTimer
             // 
             this.gameTimer.Interval = 30;
-            // 
-            // exitEvolve
-            // 
-            this.exitEvolve.Image = global::Pokemon.Properties.Resources.exitButton;
-            this.exitEvolve.Location = new System.Drawing.Point(173, 431);
-            this.exitEvolve.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.exitEvolve.Name = "exitEvolve";
-            this.exitEvolve.Size = new System.Drawing.Size(136, 44);
-            this.exitEvolve.TabIndex = 41;
-            this.exitEvolve.UseVisualStyleBackColor = true;
-            this.exitEvolve.Click += new System.EventHandler(this.exitEvolve_Click);
-            // 
-            // evolveButton
-            // 
-            this.evolveButton.Image = global::Pokemon.Properties.Resources.evolveButton;
-            this.evolveButton.Location = new System.Drawing.Point(852, 377);
-            this.evolveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.evolveButton.Name = "evolveButton";
-            this.evolveButton.Size = new System.Drawing.Size(141, 44);
-            this.evolveButton.TabIndex = 40;
-            this.evolveButton.UseVisualStyleBackColor = true;
-            this.evolveButton.Click += new System.EventHandler(this.evolveButton_Click);
             // 
             // playerNameInput
             // 
@@ -162,6 +140,16 @@
             this.bossHealthLabel.Size = new System.Drawing.Size(0, 16);
             this.bossHealthLabel.TabIndex = 48;
             // 
+            // resultBattleLabel
+            // 
+            this.resultBattleLabel.AutoSize = true;
+            this.resultBattleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.resultBattleLabel.Font = new System.Drawing.Font("Palatino Linotype", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultBattleLabel.Location = new System.Drawing.Point(479, 279);
+            this.resultBattleLabel.Name = "resultBattleLabel";
+            this.resultBattleLabel.Size = new System.Drawing.Size(0, 31);
+            this.resultBattleLabel.TabIndex = 49;
+            // 
             // spAttackButton
             // 
             this.spAttackButton.Image = ((System.Drawing.Image)(resources.GetObject("spAttackButton.Image")));
@@ -195,11 +183,33 @@
             this.attackButton.UseVisualStyleBackColor = true;
             this.attackButton.Click += new System.EventHandler(this.attackButton_Click);
             // 
+            // exitEvolve
+            // 
+            this.exitEvolve.Image = global::Pokemon.Properties.Resources.exitButton;
+            this.exitEvolve.Location = new System.Drawing.Point(173, 431);
+            this.exitEvolve.Margin = new System.Windows.Forms.Padding(4);
+            this.exitEvolve.Name = "exitEvolve";
+            this.exitEvolve.Size = new System.Drawing.Size(136, 44);
+            this.exitEvolve.TabIndex = 41;
+            this.exitEvolve.UseVisualStyleBackColor = true;
+            this.exitEvolve.Click += new System.EventHandler(this.exitEvolve_Click);
+            // 
+            // evolveButton
+            // 
+            this.evolveButton.Image = global::Pokemon.Properties.Resources.evolveButton;
+            this.evolveButton.Location = new System.Drawing.Point(852, 377);
+            this.evolveButton.Margin = new System.Windows.Forms.Padding(4);
+            this.evolveButton.Name = "evolveButton";
+            this.evolveButton.Size = new System.Drawing.Size(141, 44);
+            this.evolveButton.TabIndex = 40;
+            this.evolveButton.UseVisualStyleBackColor = true;
+            this.evolveButton.Click += new System.EventHandler(this.evolveButton_Click);
+            // 
             // continueButton
             // 
             this.continueButton.Image = ((System.Drawing.Image)(resources.GetObject("continueButton.Image")));
             this.continueButton.Location = new System.Drawing.Point(96, 532);
-            this.continueButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.continueButton.Margin = new System.Windows.Forms.Padding(4);
             this.continueButton.Name = "continueButton";
             this.continueButton.Size = new System.Drawing.Size(169, 41);
             this.continueButton.TabIndex = 39;
@@ -209,7 +219,7 @@
             // pokemonPreview
             // 
             this.pokemonPreview.Location = new System.Drawing.Point(720, 298);
-            this.pokemonPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pokemonPreview.Margin = new System.Windows.Forms.Padding(4);
             this.pokemonPreview.Name = "pokemonPreview";
             this.pokemonPreview.Size = new System.Drawing.Size(304, 262);
             this.pokemonPreview.TabIndex = 38;
@@ -220,7 +230,7 @@
             this.playerPreview.BackColor = System.Drawing.Color.Transparent;
             this.playerPreview.Image = ((System.Drawing.Image)(resources.GetObject("playerPreview.Image")));
             this.playerPreview.Location = new System.Drawing.Point(131, 342);
-            this.playerPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.playerPreview.Margin = new System.Windows.Forms.Padding(4);
             this.playerPreview.Name = "playerPreview";
             this.playerPreview.Size = new System.Drawing.Size(92, 133);
             this.playerPreview.TabIndex = 36;
@@ -231,7 +241,7 @@
             this.squirtle.BackColor = System.Drawing.Color.YellowGreen;
             this.squirtle.Image = ((System.Drawing.Image)(resources.GetObject("squirtle.Image")));
             this.squirtle.Location = new System.Drawing.Point(815, 34);
-            this.squirtle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.squirtle.Margin = new System.Windows.Forms.Padding(4);
             this.squirtle.Name = "squirtle";
             this.squirtle.Size = new System.Drawing.Size(232, 241);
             this.squirtle.TabIndex = 34;
@@ -243,7 +253,7 @@
             this.bulbasaur.BackColor = System.Drawing.Color.YellowGreen;
             this.bulbasaur.Image = ((System.Drawing.Image)(resources.GetObject("bulbasaur.Image")));
             this.bulbasaur.Location = new System.Drawing.Point(556, 34);
-            this.bulbasaur.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bulbasaur.Margin = new System.Windows.Forms.Padding(4);
             this.bulbasaur.Name = "bulbasaur";
             this.bulbasaur.Size = new System.Drawing.Size(232, 241);
             this.bulbasaur.TabIndex = 33;
@@ -255,7 +265,7 @@
             this.charmander.BackColor = System.Drawing.Color.YellowGreen;
             this.charmander.Image = ((System.Drawing.Image)(resources.GetObject("charmander.Image")));
             this.charmander.Location = new System.Drawing.Point(296, 34);
-            this.charmander.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.charmander.Margin = new System.Windows.Forms.Padding(4);
             this.charmander.Name = "charmander";
             this.charmander.Size = new System.Drawing.Size(232, 241);
             this.charmander.TabIndex = 32;
@@ -267,7 +277,7 @@
             this.pikachu.BackColor = System.Drawing.Color.YellowGreen;
             this.pikachu.Image = ((System.Drawing.Image)(resources.GetObject("pikachu.Image")));
             this.pikachu.Location = new System.Drawing.Point(33, 34);
-            this.pikachu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pikachu.Margin = new System.Windows.Forms.Padding(4);
             this.pikachu.Name = "pikachu";
             this.pikachu.Size = new System.Drawing.Size(232, 241);
             this.pikachu.TabIndex = 31;
@@ -279,7 +289,7 @@
             this.exitButton.BackColor = System.Drawing.Color.OrangeRed;
             this.exitButton.Image = ((System.Drawing.Image)(resources.GetObject("exitButton.Image")));
             this.exitButton.Location = new System.Drawing.Point(424, 468);
-            this.exitButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(4);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(204, 92);
             this.exitButton.TabIndex = 30;
@@ -292,21 +302,12 @@
             this.startButton.Image = ((System.Drawing.Image)(resources.GetObject("startButton.Image")));
             this.startButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.startButton.Location = new System.Drawing.Point(403, 283);
-            this.startButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.startButton.Margin = new System.Windows.Forms.Padding(4);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(245, 140);
             this.startButton.TabIndex = 29;
             this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            // 
-            // resultBattleLabel
-            // 
-            this.resultBattleLabel.AutoSize = true;
-            this.resultBattleLabel.Font = new System.Drawing.Font("Palatino Linotype", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultBattleLabel.Location = new System.Drawing.Point(403, 283);
-            this.resultBattleLabel.Name = "resultBattleLabel";
-            this.resultBattleLabel.Size = new System.Drawing.Size(0, 31);
-            this.resultBattleLabel.TabIndex = 49;
             // 
             // Form1
             // 
