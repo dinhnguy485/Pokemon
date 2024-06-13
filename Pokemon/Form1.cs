@@ -44,7 +44,7 @@ namespace Pokemon
         List<Rectangle> chestList = new List<Rectangle>();
 
         //Money Lists
-        int[] moneyRequired = { 10, 20, 30, 50, 80, 130, 210, 340, 550, 890 };
+        int[] moneyRequired = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160 ,170, 180, 190, 200 };
         int i = 0;
 
         //trees Images
@@ -118,7 +118,7 @@ namespace Pokemon
         int bossHeal = 600;
         int bossCounter = 1;
 
-        int playerMoney = 6000;
+        int playerMoney = 10;
         int bossCurrentHealthX = 370;
 
         //Setup for Battle
@@ -473,8 +473,6 @@ namespace Pokemon
 
         public void InitializeMainScreen()
         {
-
-
             resultBattleLabel.Visible = false;
             attackButton.Visible = false;
             attackButton.Enabled = false;
@@ -693,17 +691,145 @@ namespace Pokemon
 
         }
 
+        private void pokemonLvChecking()
+        {
+            switch (pokemonLv)
+            {
+                case 1:
+                    pokemonHealth = 100;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 2:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 3:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 4:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 5:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 6:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 7:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 8:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 9:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 10:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 11:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 12:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 13:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 14:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 15:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 16:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 17:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 18:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 19:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+                case 20:
+                    pokemonHealth = 140;
+                    pokemonAtk = 111;
+                    pokemonSpAtk = 200;
+                    pokemonHeal = 180;
+                    break;
+
+            }
+            battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
+
+        }
+
         private void evolveButton_Click(object sender, EventArgs e)
         {
             if (gameState == "Evolve Screen")
             {
-                if (playerMoney > moneyRequired[i])
+                if (playerMoney >= moneyRequired[i] && pokemonLv < 21)
                 {
+
                     pokemonLv++;
-                    pokemonHealth += 120;
-                    pokemonAtk += 200;
-                    pokemonSpAtk += 200;
-                    pokemonHeal += 180;
+                    pokemonLvChecking();
                     playerMoney -= moneyRequired[i];
                     battlePokemonHealthBar = new Rectangle(200, 300, pokemonHealth / 5, 20);
                     i++;
@@ -712,6 +838,7 @@ namespace Pokemon
                 {
                     evolveButton.Enabled = false;
                 }
+
             }
         }
         private void exitEvolve_Click(object sender, EventArgs e)
@@ -733,6 +860,7 @@ namespace Pokemon
 
         private void InitializeBattleScreen()
         {
+            pokemonLvChecking();
             gameState = "Battle Screen";
             battlePokemon.Image = playerPokemon;
             pokemonHealthLabel.Text = $"{pokemonHealth}";
@@ -758,24 +886,26 @@ namespace Pokemon
                 case 1:
                     battleBoss.Image = boss1;
                     bossHealth = 1000;
-                    bossAtk = 320;
+                    bossAtk = 400;
                     bossSpAtk = 500;
                     bossHeal = 600;
                     break;
                 case 2:
                     battleBoss.Image = boss2;
-                    battleBossHealthBar = new Rectangle(bossCurrentHealthX - 100, 100, (bossHealth / 5), 20);
+                    bossCurrentHealthX -= 100;
+                    battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
                     bossHealth = 1500;
-                    bossAtk = 400;
+                    bossAtk = 600;
                     bossSpAtk = 600;
                     bossHeal = 800;
                     break;
                 case 3:
                     battleBoss.Image = boss3;
-                    battleBossHealthBar = new Rectangle(bossCurrentHealthX - 100, 100, (bossHealth / 5), 20);
+                    bossCurrentHealthX -= 100;
+                    battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
                     bossHealth = 2000;
-                    bossAtk = 700;
-                    bossSpAtk = 900;
+                    bossAtk = 900;
+                    bossSpAtk = 1300;
                     bossHeal = 900;
                     break;
             }
@@ -839,6 +969,8 @@ namespace Pokemon
 
         public void computerChoice()
         {
+            battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
+
             int randValue = randGen.Next(1, 100 );
             if (cpuSpAttackOnCooldown && randValue < 60)
             {
@@ -858,7 +990,7 @@ namespace Pokemon
             {
                 cpuChoice = "Special Attack";
                 cpuSpAttackOnCooldown = true;
-                cpuTurnCount = 0;  // Reset cooldown counter for CPU
+                cpuTurnCount = 0;  
             }
             else
             {
@@ -869,6 +1001,8 @@ namespace Pokemon
 
         public void playerFightingResult()
         {
+            battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
+
             if (playerChoice == "Heal")
             {
                 pokemonHealth += pokemonHeal;
@@ -893,10 +1027,10 @@ namespace Pokemon
 
         public void computerFightingResult()
         {
+
             if (cpuChoice == "Heal")
             {
                 bossHealth += bossHeal;
-                bossCurrentHealthX -= bossHealth /11;
                 battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
             }
             else if (cpuChoice == "Normal Attack")
@@ -928,16 +1062,19 @@ namespace Pokemon
             battlePokemon.Location = new Point (this.Width / 2, this.Height / 2);
             gameState = "End Screen";
         }
+
         private void checkWinCondition()
         {
             if (gameState == "Battle Screen" && pokemonHealth <= 0)
             {
                 pokemonHealth = 0;
+
                 pokemonHealthLabel.Text = "0";
                 resultBattleLabel.Text = "You Loss";
                 Thread.Sleep(500);
                 resultBattleLabel.Text = " ";
                 gameLoop.Enabled = false;
+                pokemonLvChecking();
                 InitializeMainScreen();
             }
 
@@ -945,7 +1082,6 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBossHealthBar = new Rectangle(350, 100,0, 20);
                 resultBattleLabel.Text = "Next Boss";
                 battleBoss.Image = boss2;
                 resultBattleLabel.Refresh();
@@ -959,15 +1095,12 @@ namespace Pokemon
             {
                 bossHealth = 0;
                 bossHealthLabel.Text = "0";
-                battleBossHealthBar = new Rectangle(350, 100, 0, 20);
                 battleBoss.Image = boss3;
                 resultBattleLabel.Text = "Next Boss";
                 Thread.Sleep(500);
-                battleBossHealthBar = new Rectangle(bossCurrentHealthX, 100, (bossHealth / 5), 20);
                 resultBattleLabel.Text = " ";
                 bossCounter++;
                 InitializeBattleScreen();
-
             }
 
             if (gameState == "Battle Screen" && bossHealth <= 0 && bossCounter == 3)
